@@ -1,4 +1,6 @@
+/*
 
+/*
 package Demo
 import com.google.common.base.Functions
 import org.apache.spark
@@ -28,27 +30,35 @@ class Window {
       withColumn("next", functions.lead("FLOW_RATE", 1).over(window))
     df.show()
 
+    // val validation = functions.coalesce(( (next < 300) | (previousTimeDiff < 300) ), F.lit(False))
 
-    val df2 = df.withColumn("start_flowrate", functions.when(functions.col("previous") > 0.0D and functions.col("next") >= 0.0D, 0.0D)).
-      withColumn("end_flowrate", functions.when(functions.col("next") equalTo 0.0D, 0.0D))
-    df2.show()
 
-    //df2.select("start_flow").show()
-    val df3 = df2.withColumn("timestamp1",
+     val df2 = df.withColumn("start_flowrate", functions.when(functions.col("previous") > 0.0D and functions.col("next") >= 0.0D, 0.0D)).
+       withColumn("end_flowrate", functions.when(functions.col("next") equalTo 0.0D, 0.0D))
+     df2.show()
 
-      when(df2.col("start_flowrate") isNull, 0).otherwise(df2.col("TIMESTAMP")))
-      .withColumn("timestamp2",
-        when(df2.col("end_flowrate") isNull, 0).otherwise(df2.col("TIMESTAMP")))
-    df3.show()
-    val window2 = Window.orderBy("DEVICE_ID")
-    val df4 = df3.withColumn("timestamp5", functions.lead("timestamp1", 1).over(window2))
-    df4.show()
+*/
 
-    df4.select("timestamp5").show()
-    df4
+
+
+     //df2.select("start_flow").show()
+    /* val df3 = df2.withColumn("timestamp1",
+
+       when(df2.col("start_flowrate") isNull, 0).otherwise(df2.col("TIMESTAMP")))
+       .withColumn("timestamp2",
+         when(df2.col("end_flowrate") isNull, 0).otherwise(df2.col("TIMESTAMP")))
+     df3.show()
+     val window2 = Window.orderBy("DEVICE_ID")
+     val df4 = df3.withColumn("timestamp5", functions.lead("timestamp1", 1).over(window2))
+     df4.show()
+
+     df4.select("timestamp5").show()
+     df4
+*/
+
+
    // val df5 = functions.when(df4.col("timestamp1") isNull, df4.select(first("timestamp5")).as("newtimestamp"))
-  }
-}
+
 
 
 
@@ -125,3 +135,4 @@ class Window {
 
 
 
+*/
