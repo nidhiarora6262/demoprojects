@@ -1,3 +1,4 @@
+
 package Demo
 import com.google.common.base.Functions
 import org.apache.spark
@@ -38,13 +39,24 @@ class Window {
       when(df2.col("start_flowrate") isNull, 0).otherwise(df2.col("TIMESTAMP")))
       .withColumn("timestamp2",
         when(df2.col("end_flowrate") isNull, 0).otherwise(df2.col("TIMESTAMP")))
-    df3
-     val overCategory = Window.partitionBy("TIMESTAMP")
-   df3.withColumn(
-      "newtimestamp",functions.when(functions.col("previous") > 0.0D and functions.col("next") >  0.0D ,0)over overCategory).show()
-    df3
+    df3.show()
+    val window2 = Window.orderBy("DEVICE_ID")
+    val df4 = df3.withColumn("timestamp5", functions.lead("timestamp1", 1).over(window2))
+    df4.show()
+
+    df4.select("timestamp5").show()
+    df4
+   // val df5 = functions.when(df4.col("timestamp1") isNull, df4.select(first("timestamp5")).as("newtimestamp"))
   }
 }
+
+
+
+
+    // val overCategory = Window.partitionBy("TIMESTAMP")
+    //df.withColumn("start", F.coalesce(F.lag(col("start_flowrate"), 1).over(orderBy(col("devideId"))
+
+
 
   object Timestamp  extends Window {
    def main(args:Array[String]) :Unit={
@@ -106,6 +118,7 @@ class Window {
       //df.select("Id").where("previous.isNotNull || next.isNull").show()
 
       //val df2=words.select("")
+
 
 
 
